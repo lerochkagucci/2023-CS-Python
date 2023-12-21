@@ -35,6 +35,7 @@ def to_prefix(equation: str) -> str:
 
     while op_stack:
         prefix.append(op_stack.pop())
+        
 
     return " ".join(prefix[::-1])
 
