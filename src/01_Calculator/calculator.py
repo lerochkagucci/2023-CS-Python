@@ -56,4 +56,4 @@ def to_prefix(equation: str) -> List[str]:
  
 def calculate(equation: str) -> int:
     return prefix_evaluate(to_prefix(equation))
-
+    
