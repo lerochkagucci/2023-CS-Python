@@ -34,3 +34,4 @@ class TestOcean:
         assert str(self.ocean) == "\n".join(
             [" ".join(str(el) for el in row) for row in self.next_state]
         )
+

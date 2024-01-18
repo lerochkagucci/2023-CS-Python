@@ -79,3 +79,4 @@ if name == "__main__":
         ocean = ocean.gen_next_quantum()
     print(ocean)  # noqa: T201
 
+
