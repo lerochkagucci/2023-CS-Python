@@ -1,24 +1,24 @@
 import sys
 from typing import List
- 
- 
+
+
 class Ocean:
     state: List[List[int]]
- 
-    def __init__(self, init_state: List[List[int]]):
+
+    def init(self, init_state: List[List[int]]):
         self.state = init_state
- 
-    def __str__(self) -> str:
+
+    def str(self) -> str:
         return "\n".join([" ".join(str(el) for el in row) for row in self.state])
- 
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self.state!r})"
- 
+
+    def repr(self) -> str:
+        return f"{self.__class__.name}({self.state!r})"
+
     def gen_next_quantum(self) -> "Ocean":
         new_state = []
         fish = 2
         shrimp = 3
- 
+
         for i in range(len(self.state)):
             new_row = []
             for j in range(len(self.state[i])):
@@ -44,7 +44,7 @@ class Ocean:
                             n_fish += 1
                         elif self.state[ni][nj] == shrimp:
                             n_shrimp += 1
- 
+
                     if self.state[i][j] == fish:
                         if n_fish < 2 or n_fish > 3:  # noqa: PLR2004
                             new_row.append(0)
@@ -62,21 +62,19 @@ class Ocean:
                     else:
                         new_row.append(0)
             new_state.append(new_row)
- 
+
         return Ocean(init_state=new_state)
- 
- 
-if name == "__main__":
+
+
+if __name__ == "main":
     n_quantums = int(sys.stdin.readline())
     n_rows, n_clms = (int(i) for i in sys.stdin.readline().split())
     init_state = []
     for i in range(n_rows):
         line = [int(i) for i in sys.stdin.readline().split()]
         init_state.append(line)
- 
+
     ocean = Ocean(init_state=init_state)
     for _ in range(n_quantums):
         ocean = ocean.gen_next_quantum()
     print(ocean)  # noqa: T201
-
-
