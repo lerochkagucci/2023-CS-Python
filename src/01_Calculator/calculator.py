@@ -1,58 +1,24 @@
-from operator import add, mul, sub 
-from operator import truediv as div 
-from typing import List 
+name: Lint 1. Calculator
 
-def prefix_evaluate(prefix_evaluation: List[str]) -> int: 
-    stack = []
-    
-    for token in reversed(prefix_evaluation):
-        if token.isdigit():
-            stack.append(int(token))
-        else:
-            if token in "+-*/":
-                operand1 = stack.pop()
-                operand2 = stack.pop()
+on: [push]
 
-                if token == "+":
-                    result = add(operand1, operand2)
-                elif token == "-":
-                    result = sub(operand1, operand2)
-                elif token == "*":
-                    result = mul(operand1, operand2)
-                elif token == "/":
-                    result = div(operand1, operand2)
-                
-                stack.append(result)
-
-    return stack[0]
-
-def to_prefix(equation: str) -> List[str]:
-    precedence = {"+": 1, "-": 1, "*": 2, "/": 2}
-    operators = set("+*-/")
-    output = []
-    stack = []
-
-    for token in reversed(equation.split()):
-        if token.isdigit():
-            output.append(token)
-        elif token in operators:
-            while stack and stack[-1] != ")" and precedence[token] <= precedence.get(stack[-1], 0):
-                output.append(stack.pop())
-            stack.append(token)
-        elif token == ")":
-            stack.append(token)
-        elif token == "(":
-            while stack and stack[-1] != ")":
-                output.append(stack.pop())
-            stack.pop()
-    
-    while stack:
-        output.append(stack.pop())
-    
-    return list(reversed(output))
-
-def calculate(equation: str) -> int:
-    return prefix_evaluate(to_prefix(equation))
-    
-
-
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install hatch
+        hatch env create
+    - name: Lint Task
+      run: |
+        hatch run lint:task1
