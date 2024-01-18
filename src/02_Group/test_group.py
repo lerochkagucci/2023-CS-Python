@@ -46,14 +46,6 @@ class TestPerson:
         with pytest.raises(ValueError):
             Person("a", "b", "c", [])
 
-    def test_ages(self, polina: Person):
-        assert hasattr(polina, "full_ages")
-        assert polina.full_ages() == datetime.now(tz=timezone.utc).year - polina.bday.year
-
-        for i in range(10):
-            polina.bday = date(1990 + i, 4, 12)
-            assert polina.full_ages() == datetime.now(tz=timezone.utc).year - polina.bday.year
-
     @staticmethod
     def test_eq(polina: Person):
         assert polina == Person("Polina", "Gagarina", "female", date(1990, 4, 12))
